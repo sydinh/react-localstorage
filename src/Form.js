@@ -8,6 +8,7 @@ const Form = memo(props => (
       name="searchTerm"
       value={props.searchTerm}
       onChange={props.onChange}
+      ref={props.inputRef}
     />
     <button type="submit">Search</button>
   </form>

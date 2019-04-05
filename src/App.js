@@ -8,6 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.inputRef = React.createRef();
+
     this.state = {
       searchTerm: '',
       hits: [],
@@ -18,6 +20,10 @@ class App extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onSetSearchResult = this.onSetSearchResult.bind(this);
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
   }
 
   onChange(event) {
@@ -68,6 +74,7 @@ class App extends Component {
           searchTerm={this.state.searchTerm}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
+          inputRef={this.inputRef}
         />
         <Loading loading={this.state.loading} />
         <List hits={this.state.hits} searchTerm={this.state.searchTerm} />
