@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 
 import Form from './Form';
 import List from './List';
+import Loading from './Loading';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +11,7 @@ class App extends Component {
     this.state = {
       searchTerm: '',
       hits: [],
+      loading: false,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -23,13 +26,17 @@ class App extends Component {
 
   onSubmit(event) {
     event.preventDefault();
+    this.setState({ loading: true });
 
     const { searchTerm: query } = this.state;
-    if (query === '') return;
+    if (query === '') {
+      this.setState({ loading: false });
+      return;
+    }
 
     const cachedHits = localStorage.getItem(query);
     if (cachedHits) {
-      this.setState({ hits: JSON.parse(cachedHits) });
+      this.setState({ hits: JSON.parse(cachedHits), loading: false });
     } else {
       this.onSearch(query);
     }
@@ -43,6 +50,8 @@ class App extends Component {
       this.onSetSearchResult(result, query);
     } catch (error) {
       console.log(error);
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
@@ -60,7 +69,8 @@ class App extends Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         />
-        <List hits={this.state.hits} />
+        <Loading loading={this.state.loading} />
+        <List hits={this.state.hits} searchTerm={this.state.searchTerm} />
       </Fragment>
     );
   }
