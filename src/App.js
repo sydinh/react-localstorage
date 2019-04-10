@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
-import Form from './Form';
-import List from './List';
-import Loading from './Loading';
+import Form from './components/Form';
+import List from './components/List';
+import Loading from './components/Loading';
 
 class App extends Component {
   constructor(props) {
